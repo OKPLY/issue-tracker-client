@@ -1,4 +1,4 @@
-import React,{useState}  from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,41 +10,33 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
+import signin from '../util/api';
 
-
-
-
-const localStorage = window.localStorage;
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
     const navigate = useNavigate();
-    const [error,setError] = useState(false);
+    const [error, setError] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-    
+
         try {
-            const response = await axios.post("/uaa/login", {
+            await signin({
                 email: data.get('email'),
                 password: data.get('password')
-            });
-            console.log(">>>>",response.status)
-            const token = response.data.token; 
-    
-            // Save the token to localStorage or any other desired location
-            localStorage.setItem('token', token);
-    
+            }
+            )
+
             navigate("/dashboard");
         } catch (error) {
-            console.error(">>>>>>>>",error);
+
             setError(true)
         }
     };
-    
+
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -64,7 +56,7 @@ export default function SignIn() {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit}  sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
@@ -94,7 +86,7 @@ export default function SignIn() {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
-                            
+
                         >
                             Sign In
                         </Button>

@@ -1,50 +1,43 @@
-import React,{useState}  from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
+import { signup } from '../util/api';
 
-
-// TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const [error,setError] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      firstname: data.get('firstname'),
-      lastname: data.get('lastname'),
-      email: data.get('email'),
-      password: data.get('password')
-    })
-
     try {
-      const response = await axios.post("/uaa/signup", {
+      await signup({
         firstname: data.get('firstName'),
         lastname: data.get('lastName'),
         email: data.get('email'),
         password: data.get('password')
-      });
-
-
-      navigate("/");
+      })
+      navigate("/")
     } catch (error) {
-      setError(true)
+      setError(error);
     }
+
+
+
+
   };
 
   return (
