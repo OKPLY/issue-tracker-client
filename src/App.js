@@ -9,12 +9,18 @@ import SideBar from "./components/layout/SideBar";
 function App() {
   return (
     <Stack direction="row" sx={{ width: "100%" }}>
-      <SideBar />
-
       <Routes>
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/" element={<Dashboard />} />
+        {localStorage.getItem("token") ? (
+          <>
+            <SideBar />
+            <Route path="/" element={<Dashboard />} />
+          </>
+        ) : (
+          <>
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signUp" element={<SignUp />} />
+          </>
+        )}
       </Routes>
     </Stack>
   );

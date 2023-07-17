@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import StatCard from "../components/dashboard/StatCard";
 import { Grid } from "@mui/material";
 import LineChartCard from "../components/dashboard/LineChartCard";
 import BarChartCard from "../components/dashboard/BarChartCard";
 import PieChartCard from "../components/dashboard/PieChartCard";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/signin");
+    }
+  }, []);
+
   return (
     <Grid container padding={3} spacing={3}>
       <Grid item xs={12} md={6} lg={2}>
