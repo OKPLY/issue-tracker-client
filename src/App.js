@@ -3,7 +3,7 @@ import SignIn from "./pages/Signin";
 import SignUp from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import { useState } from "react";
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import SideBar from "./components/layout/SideBar";
 
 function App() {
@@ -12,9 +12,11 @@ function App() {
       {localStorage.getItem("token") ? (
         <>
           <SideBar />
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-          </Routes>
+          <div>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+            </Routes>
+          </div>
         </>
       ) : (
         <Routes>

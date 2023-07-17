@@ -31,7 +31,7 @@ function PieChartCard({ title, data, categories }) {
 
     roseType: "area",
     tooltip: {
-      trigger: "axis",
+      trigger: "item",
     },
   };
 

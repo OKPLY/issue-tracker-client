@@ -39,7 +39,7 @@ function BarChartCard({ title, labels, data, categories }) {
       name: categoriesState?.at(idx),
     })),
     tooltip: {
-      trigger: "axis",
+      trigger: "item",
     },
   };
 
