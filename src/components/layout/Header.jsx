@@ -1,12 +1,19 @@
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { Container } from "@mui/material";
+import {
+  Avatar,
+  Container,
+  Grid,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const drawerWidth = 280;
@@ -29,43 +36,76 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
+const settings = ["Profile", "Logout"];
+
 export default function Header({ title }) {
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+  useEffect(() => {
+    handleLogout();
+  }, [localStorage.getItem("token")]);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+  };
   const navigate = useNavigate();
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
+  const handleSettingLink = (setting) => {
+    setting == "Profile" ? navigate("/account") : handleLogout();
+    setAnchorElUser(null);
+  };
+  const [anchorElUser, setAnchorElUser] = useState(null);
   return (
-    <div style={{ height: 60 }}>
-      <AppBar
-        position="fixed"
-        open={true}
-        sx={{
-          bgcolor: "#2d3e83",
-          boxShadow: "none",
-          borderBottomLeftRadius: "10px",
-          marginBottom: "20px",
-        }}
-      >
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div" fontSize={18}>
-            {title}
-          </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <Link
-              to="/account"
-              style={{ color: "inherit", textDecoration: "none" }}
-            >
-              <IconButton size="large" edge="end" color="inherit">
-                <AccountCircle />
-              </IconButton>
-              <Typography variant="button" ml={0.5}>
-                {"Maggie"}
-              </Typography>
-            </Link>
-          </Box>
-        </Toolbar>
-      </AppBar>
-    </div>
+    <AppBar
+      position="fixed"
+      open={true}
+      sx={{
+        display: "flex",
+        bgcolor: "#2d3e83",
+        boxShadow: "none",
+        borderBottomLeftRadius: "10px",
+        marginBottom: "20px",
+        height: 60,
+      }}
+    >
+      <Toolbar>
+        <Typography variant="h6" noWrap component="div" fontSize={18}>
+          {title}
+        </Typography>
+        <Box sx={{ flexGrow: 1 }} />
+        <Box sx={{ flexGrow: 0 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: "45px" }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={() => setAnchorElUser(null)}
+          >
+            {settings.map((setting) => (
+              <MenuItem
+                key={setting}
+                onClick={() => handleSettingLink(setting)}
+              >
+                <Typography textAlign="center">{setting}</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 }

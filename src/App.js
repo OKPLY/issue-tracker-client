@@ -3,8 +3,11 @@ import SignIn from "./pages/Signin";
 import SignUp from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import { useState } from "react";
-import { Box, Stack } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import SideBar from "./components/layout/SideBar";
+import IssueCard from "./components/issue/IssueCard";
+import { ReviewIssues } from "./pages/ReviewIssue";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -15,6 +18,10 @@ function App() {
           <div>
             <Routes>
               <Route path="/" element={<Dashboard />} />
+              <Route path="/issues/review" element={<ReviewIssues />} />
+              <Route path="/account" element={<Profile />} />
+
+              <Route path="/issues/review" element={<ReviewIssues />} />
             </Routes>
           </div>
         </>
@@ -22,7 +29,7 @@ function App() {
         <Routes>
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signUp" element={<SignUp />} />
-          <Route path="*" element={<Navigate to="/signin" />} />
+          {/* <Route path="*" element={<Navigate to="/signin" />} /> */}
         </Routes>
       )}
     </Stack>

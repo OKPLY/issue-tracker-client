@@ -39,7 +39,7 @@ export default function SignIn() {
         authUpdate
       );
 
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       setError(true);
     }

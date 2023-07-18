@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import StatCard from "../components/dashboard/StatCard";
-import { Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import LineChartCard from "../components/dashboard/LineChartCard";
 import BarChartCard from "../components/dashboard/BarChartCard";
 import PieChartCard from "../components/dashboard/PieChartCard";
