@@ -10,6 +10,7 @@ import { ReviewIssues } from "./pages/ReviewIssue";
 import Profile from "./pages/Profile";
 import NewIssue from "./pages/NewIssue";
 import { useAuth, useAuthUpdate } from "./contexts/AuthContext";
+import IssueStatusTracker from "./components/IssueTrack";
 
 function App() {
   const auth = useAuth();
@@ -36,6 +37,7 @@ function App() {
 
               <Route path="/issues/new" element={<NewIssue />} />
               <Route path="/issues/review" element={<ReviewIssues />} />
+              <Route path="/issues/resolve" element={<IssueStatusTracker />} />
             </Routes>
           </div>
         </>
