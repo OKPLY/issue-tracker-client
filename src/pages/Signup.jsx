@@ -12,29 +12,35 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { signup } from "../util/api";
+import { useAuth, useAuthUpdate } from "../contexts/AuthContext";
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const auth = useAuth();
+  const authUpdate = useAuthUpdate();
   const navigate = useNavigate();
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (auth) {
       navigate("/");
     }
   }, []);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    //event.preventDefault();
     const data = new FormData(event.currentTarget);
     try {
-      await signup({
-        firstname: data.get("firstName"),
-        lastname: data.get("lastName"),
-        email: data.get("email"),
-        password: data.get("password"),
-      });
+      await signup(
+        {
+          firstname: data.get("firstName"),
+          lastname: data.get("lastName"),
+          email: data.get("email"),
+          password: data.get("password"),
+        },
+        authUpdate
+      );
       navigate("/");
     } catch (error) {
       setError(error);

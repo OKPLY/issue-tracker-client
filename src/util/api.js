@@ -11,27 +11,29 @@ export default async function signin(data, authUpdate) {
       email: data.email,
       password: data.password,
     });
-    const token = response.data.token;
 
     // Save the token to localStorage or any other desired location
-    localStorage.setItem("token", token);
-    authUpdate({ token: token });
+    localStorage.setItem("user", JSON.stringify(response.data));
+    authUpdate(response.data);
   } catch (error) {
     throw error;
   }
 }
 
-export async function signup(data) {
+export async function signup(data, authUpdate) {
   try {
-    console.log(">>>", data);
+    //console.log(">>>", data);
 
-    const res = await axios.post("/uaa/signup", {
+    const response = await axios.post("/uaa/signup", {
       firstname: data.firstname,
       lastname: data.lastname,
       email: data.email,
       password: data.password,
     });
-    console.log("heree>>>", res);
+    //console.log("heree>>>", res);
+
+    localStorage.setItem("user", JSON.stringify(response.data));
+    authUpdate(response.data);
   } catch (error) {
     throw error;
   }

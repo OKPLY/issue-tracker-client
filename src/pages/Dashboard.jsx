@@ -8,11 +8,13 @@ import { useNavigate } from "react-router-dom";
 import NewUsersCard from "../components/dashboard/NewUsersCard";
 import Header from "../components/layout/Header";
 import NewIssuesCard from "../components/dashboard/NewIssuesCard";
+import { useAuth } from "../contexts/AuthContext";
 
 function Dashboard() {
+  const auth = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
+    if (!auth) {
       navigate("/signin");
     }
   }, []);

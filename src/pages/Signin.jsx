@@ -11,23 +11,24 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import signin from "../util/api";
-import { useAuthUpdate } from "../contexts/AuthContext";
+import { useAuth, useAuthUpdate } from "../contexts/AuthContext";
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const auth = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState(false);
   const authUpdate = useAuthUpdate();
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (auth) {
       navigate("/");
     }
   }, []);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    //event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     try {
