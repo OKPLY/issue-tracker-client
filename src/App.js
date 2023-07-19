@@ -18,6 +18,7 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("user")) {
       authUpdate(JSON.parse(localStorage.getItem("user")));
+      console.log(JSON.parse(localStorage.getItem("user")));
     }
   }, []);
 
@@ -28,6 +29,8 @@ function App() {
           <SideBar />
           <div>
             <Routes>
+              <Route path="/signin" element={<Navigate to="/" />} />
+              <Route path="/signUp" element={<Navigate to="/" />} />
               <Route path="/" element={<Dashboard />} />
               <Route path="/issues/review" element={<ReviewIssues />} />
               <Route path="/account" element={<Profile />} />

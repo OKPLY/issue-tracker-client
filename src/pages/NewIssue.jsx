@@ -1,9 +1,11 @@
 import { Box, Container, Grid, Paper, Stack, Typography } from "@mui/material";
 import React from "react";
+import Header from "../components/layout/Header";
 
 function NewIssue() {
   return (
-    <Container>
+    <>
+      <Header title="Create New Issue" />
       <Box
         sx={{
           marginTop: 8,
@@ -16,7 +18,7 @@ function NewIssue() {
           Create New Issue
         </Typography>
       </Box>
-    </Container>
+    </>
   );
 }
 

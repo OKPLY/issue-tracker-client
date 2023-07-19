@@ -29,7 +29,7 @@ export default function SignUp() {
   }, []);
 
   const handleSubmit = async (event) => {
-    //event.preventDefault();
+    event.preventDefault();
     const data = new FormData(event.currentTarget);
     try {
       await signup(

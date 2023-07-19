@@ -28,7 +28,7 @@ export default function SignIn() {
   }, []);
 
   const handleSubmit = async (event) => {
-    //event.preventDefault();
+    event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     try {
