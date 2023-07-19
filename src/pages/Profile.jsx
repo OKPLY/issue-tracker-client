@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import handleUpload from "../util/uploadFile";
+import Header from "../components/layout/Header";
 
 function ProfileEditor() {
   const [firstName, setFirstName] = useState("");
@@ -67,81 +68,84 @@ function ProfileEditor() {
   };
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4 }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sx={{ textAlign: "center" }}>
-          <label htmlFor="profilePictureInput">
-            <Avatar
-              alt="Profile Picture"
-              src={profilePicture ? URL.createObjectURL(profilePicture) : ""}
-              sx={{
-                width: 150,
-                height: 150,
-                cursor: "pointer",
-                m: "auto",
-              }}
+    <>
+      <Header title={"Profile"} />
+      <Container maxWidth="md" sx={{ mt: 4 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sx={{ textAlign: "center" }}>
+            <label htmlFor="profilePictureInput">
+              <Avatar
+                alt="Profile Picture"
+                src={profilePicture ? URL.createObjectURL(profilePicture) : ""}
+                sx={{
+                  width: 150,
+                  height: 150,
+                  cursor: "pointer",
+                  m: "auto",
+                }}
+              />
+              <input
+                type="file"
+                id="profilePictureInput"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={handleProfilePictureUpload}
+              />
+            </label>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              autoComplete="given-name"
+              fullWidth
+              label="First Name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              error={!!errors.firstName}
+              helperText={errors.firstName}
             />
-            <input
-              type="file"
-              id="profilePictureInput"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={handleProfilePictureUpload}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              autoComplete="family-name"
+              fullWidth
+              label="Last Name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              error={!!errors.lastName}
+              helperText={errors.lastName}
             />
-          </label>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={!!errors.email}
+              helperText={errors.email}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              error={!!errors.password}
+              helperText={errors.password}
+            />
+          </Grid>
+          {/* Add other common user data fields here */}
+          <Grid item xs={12}>
+            <Button variant="contained" onClick={handleSaveProfile}>
+              Save
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            autoComplete="given-name"
-            fullWidth
-            label="First Name"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            error={!!errors.firstName}
-            helperText={errors.firstName}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            autoComplete="family-name"
-            fullWidth
-            label="Last Name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            error={!!errors.lastName}
-            helperText={errors.lastName}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            fullWidth
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            error={!!errors.email}
-            helperText={errors.email}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            fullWidth
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            error={!!errors.password}
-            helperText={errors.password}
-          />
-        </Grid>
-        {/* Add other common user data fields here */}
-        <Grid item xs={12}>
-          <Button variant="contained" onClick={handleSaveProfile}>
-            Save
-          </Button>
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </>
   );
 }
 

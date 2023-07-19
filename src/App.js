@@ -18,16 +18,15 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("user")) {
       authUpdate(JSON.parse(localStorage.getItem("user")));
-      console.log(JSON.parse(localStorage.getItem("user")));
     }
   }, []);
 
   return (
-    <Stack direction="row" sx={{ width: "100%" }}>
+    <div style={{ display: "flex", flexDirection: "row", width: "100vw" }}>
       {auth ? (
         <>
           <SideBar />
-          <div>
+          <div style={{ flexGrow: 1 }}>
             <Routes>
               <Route path="/signin" element={<Navigate to="/" />} />
               <Route path="/signUp" element={<Navigate to="/" />} />
@@ -44,10 +43,10 @@ function App() {
         <Routes>
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signUp" element={<SignUp />} />
-          <Route path="*" element={<Navigate to="/signin" />} />
+          {/* <Route path="*" element={<Navigate to="/signin" />} /> */}
         </Routes>
       )}
-    </Stack>
+    </div>
   );
 }
 

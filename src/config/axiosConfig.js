@@ -34,7 +34,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401) {
+    if (error.response?.status === 401) {
       // Handle token expiration or invalid token error
       // You can redirect to the login page or display a message to the user
       Alert("Session expired. Please log in again.");

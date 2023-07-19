@@ -26,7 +26,7 @@ export default function SignUp() {
     if (auth) {
       navigate("/");
     }
-  }, []);
+  }, [auth]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
