@@ -102,7 +102,7 @@ function NewIssue() {
     <>
       <Header title="Create New Issue" />
 
-      <Backdrop open={isLoading} sx={{ zIndex: 999999999999 }}>
+      <Backdrop open={isLoading} sx={{ zIndex: 10000 }}>
         <CircularProgress />
       </Backdrop>
 

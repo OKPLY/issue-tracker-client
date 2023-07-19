@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import axios from "axios";
 import ContextProviders from "./contexts/ContextProviders";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 axios.defaults.baseURL = "http://localhost:8080";
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -14,7 +15,7 @@ root.render(
   <BrowserRouter>
     <ContextProviders>
       <App />
-      <ToastContainer position="top-right" />
+      <ToastContainer position="bottom-right" />
     </ContextProviders>
   </BrowserRouter>
 );

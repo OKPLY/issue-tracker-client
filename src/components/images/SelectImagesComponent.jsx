@@ -24,7 +24,7 @@ const removeImgStyle = {
   marginLeft: "auto",
   marginBottom: "-25px",
 
-  zIndex: "10000",
+  zIndex: "1",
   backgroundColor: "white",
   borderRadius: 1000,
   width: "20px",

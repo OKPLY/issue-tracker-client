@@ -125,7 +125,7 @@ export default function SideBar({}) {
               {menus?.map((obj, index) =>
                 obj.hasChildren ? (
                   obj.permission && (
-                    <>
+                    <div key={obj.label}>
                       <ListItemButton
                         onClick={() => {
                           setOpenIndex(openIndex == index ? -1 : index);
@@ -159,10 +159,10 @@ export default function SideBar({}) {
                           ))}
                         </List>
                       </Collapse>
-                    </>
+                    </div>
                   )
                 ) : (
-                  <SideBarMenuSingle menu={obj} />
+                  <SideBarMenuSingle key={obj.label} menu={obj} />
                 )
               )}
             </div>

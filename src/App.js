@@ -11,6 +11,8 @@ import Profile from "./pages/Profile";
 import NewIssue from "./pages/NewIssue";
 import { useAuth, useAuthUpdate } from "./contexts/AuthContext";
 import IssueStatusTracker from "./components/IssueTrack";
+import IssueDetails from "./pages/IssueDetails";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const auth = useAuth();
@@ -35,6 +37,7 @@ function App() {
               <Route path="/issues/review" element={<ReviewIssues />} />
               <Route path="/account" element={<Profile />} />
 
+              <Route path="/issues/:id" element={<IssueDetails />} />
               <Route path="/issues/new" element={<NewIssue />} />
               <Route path="/issues/review" element={<ReviewIssues />} />
               <Route path="/issues/resolve" element={<IssueStatusTracker />} />
