@@ -17,6 +17,7 @@ import {
 import { useState } from "react";
 import CommentIcon from "@mui/icons-material/Comment";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
+import styled from "@emotion/styled";
 
 function IssueCard(props) {
   const {
@@ -83,14 +84,14 @@ function IssueCard(props) {
           xs={4}
           sx={{ display: "flex", alignItems: "center", gap: 2 }}
         >
-          <Avatar alt={user.name} src={user.profilePic} />
-          <Rating
-            name="simple-controlled"
-            value={3}
-            // onChange={(event, newValue) => {
-            //   setValue(newValue);
-            // }}
-          />
+          <AvatarLabel>
+            <Avatar
+              style={{ marginRight: "14px" }}
+              alt={user.name}
+              src={user.profilePic}
+            />
+            <Typography variant="body2"> Jack Sparrow</Typography>
+          </AvatarLabel>
         </Grid>
         <Grid
           item
@@ -120,3 +121,8 @@ function IssueCard(props) {
 }
 
 export default IssueCard;
+
+const AvatarLabel = styled.div`
+  display: flex;
+  align-items: center;
+`;
