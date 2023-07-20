@@ -49,16 +49,16 @@ function CommentDetail({ comment, forComment }) {
               <Typography variant="body2">{comment?.commentText}</Typography>
             </Stack>
 
+            {comment?.attachments?.length > 0 && (
+              <ShowImagesComponent images={comment?.attachments} forComment />
+            )}
+
             {comments?.length > 0 && (
               <Stack spacing={2}>
                 {comments?.map((comment) => (
                   <CommentDetail comment={comment} forComment />
                 ))}
               </Stack>
-            )}
-
-            {comment?.attachments?.length > 0 && (
-              <ShowImagesComponent images={comment?.attachments} forComment />
             )}
 
             {!forComment && (

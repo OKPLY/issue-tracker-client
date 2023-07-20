@@ -13,7 +13,7 @@ function ShowImagesComponent({ images, forComment }) {
             borderRadius: "10px",
           }}
           cols={4}
-          gap={8}
+          gap={6}
         >
           {images.map((image, index) => (
             <Zoom key={image.key}>
