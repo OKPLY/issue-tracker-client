@@ -52,7 +52,7 @@ function Header({ title }) {
           height: 60,
         }}
       >
-        <Container maxWidth="xl" width={"100%"}>
+        <Container maxWidth="xl">
           <Toolbar disableGutters style={{ minHeight: 60 }}>
             <Box sx={{ flexGrow: 1 }}>
               <Typography variant="h6" noWrap component="div">

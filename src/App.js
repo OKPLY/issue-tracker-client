@@ -14,6 +14,8 @@ import IssueStatusTracker from "./components/IssueTrack";
 import IssueDetails from "./pages/IssueDetails";
 import { ToastContainer } from "react-toastify";
 
+import "react-medium-image-zoom/dist/styles.css";
+
 function App() {
   const auth = useAuth();
   const authUpdate = useAuthUpdate();

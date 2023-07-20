@@ -31,7 +31,7 @@ const removeImgStyle = {
   height: "20px",
 };
 
-function SelectImagesComponent({ selectedImages, setSelectedImages }) {
+function SelectImagesComponent({ selectedImages, setSelectedImages, comment }) {
   const [progress, setProgress] = useState([]);
   function imageSelectedHandler(event) {
     //Validate and store images
@@ -75,12 +75,19 @@ function SelectImagesComponent({ selectedImages, setSelectedImages }) {
   }
   return (
     <Stack spacing={3}>
-      <Typography variant="h6" align="center">
-        Attachments
-      </Typography>
+      {!comment && (
+        <Typography variant="h6" align="center">
+          Attachments
+        </Typography>
+      )}
       {selectedImages?.length > 0 ? (
         <ImageList
-          sx={{ minHeight: 350, maxHeight: 350, borderRadius: "10px" }}
+          sx={{
+            ...(!comment
+              ? { minHeight: 350, maxHeight: 350 }
+              : { maxHeight: 200 }),
+            borderRadius: "10px",
+          }}
           cols={3}
           gap={8}
         >
@@ -124,7 +131,12 @@ function SelectImagesComponent({ selectedImages, setSelectedImages }) {
         </ImageList>
       ) : (
         <Box>
-          <Typography variant="h6" my={20} align="center" color="darkgray">
+          <Typography
+            variant="h6"
+            my={comment ? 0 : 20}
+            align="center"
+            color="darkgray"
+          >
             No Images Selected
           </Typography>
         </Box>

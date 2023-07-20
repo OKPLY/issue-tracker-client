@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import SelectImagesComponent from "../components/images/SelectImagesComponent";
 import { Form, useNavigate } from "react-router-dom";
 import handleUpload from "../util/uploadFile";
+import NewCommentCard from "../components/comment/NewCommentCard";
 
 const initialState = () => ({
   title: "",
@@ -61,6 +62,8 @@ function NewIssue() {
     if (selectedType?.id) {
       data.type = { id: selectedType.id };
     }
+
+    if (selectedImages?.length == 0) submit(data);
 
     for (var i = 0; i < selectedImages.length; i++) {
       handleUpload(
@@ -118,9 +121,9 @@ function NewIssue() {
                   required
                   fullWidth
                   label="Issue Title"
-                  name="name"
+                  name="title"
                   autoFocus
-                  value={state.name}
+                  value={state.title}
                   onChange={handleChange}
                 />
                 <TextField
