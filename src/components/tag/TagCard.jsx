@@ -24,7 +24,7 @@ function TagCard({ tag, getTags }) {
         setEditMode(false);
       })
       .catch((err) => {
-        toast.error(err.response.data.message ?? "Something went wrong");
+        toast.error(err?.response.data.message ?? "Something went wrong");
       });
   };
 
@@ -36,7 +36,7 @@ function TagCard({ tag, getTags }) {
         getTags();
       })
       .catch((err) => {
-        toast.error(err.response.data.message ?? "Something went wrong");
+        toast.error(err?.response.data.message ?? "Something went wrong");
       });
   };
 

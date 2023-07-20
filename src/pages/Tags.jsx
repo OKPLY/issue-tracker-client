@@ -28,7 +28,7 @@ function Tags() {
         setTags(res.data);
       })
       .catch((err) => {
-        toast.error(err.response.data.message ?? "Something went wrong");
+        toast.error(err?.response?.data?.message ?? "Something went wrong");
       });
   };
 
@@ -43,7 +43,7 @@ function Tags() {
         setName("");
       })
       .catch((err) => {
-        toast.error(err.response.data.message ?? "Something went wrong");
+        toast.error(err?.response?.data?.message ?? "Something went wrong");
       });
   };
 
@@ -78,6 +78,9 @@ function Tags() {
 
         <Grid item xs={12} md={6}>
           <Stack spacing={2}>
+            <Typography variant="h6" align="center">
+              Tags
+            </Typography>
             {tags?.map((tag) => (
               <TagCard tag={tag} getTags={getTags} />
             ))}

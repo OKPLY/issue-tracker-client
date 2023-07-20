@@ -24,7 +24,7 @@ function TypeCard({ type, getTypes }) {
         setEditMode(false);
       })
       .catch((err) => {
-        toast.error(err.response.data.message ?? "Something went wrong");
+        toast.error(err?.response.data.message ?? "Something went wrong");
       });
   };
 
@@ -36,7 +36,7 @@ function TypeCard({ type, getTypes }) {
         getTypes();
       })
       .catch((err) => {
-        toast.error(err.response.data.message ?? "Something went wrong");
+        toast.error(err?.response.data.message ?? "Something went wrong");
       });
   };
 

@@ -46,7 +46,7 @@ function IssueDetails() {
         setIssue(res.data);
       })
       .catch((err) => {
-        toast.error(err.response?.data?.message ?? "Something went wrong");
+        toast.error(err?.response?.data?.message ?? "Something went wrong");
       });
 
     axios
@@ -55,7 +55,7 @@ function IssueDetails() {
         setRelatedIssues(res.data);
       })
       .catch((err) => {
-        toast.error(err.response?.data?.message ?? "Something went wrong");
+        toast.error(err?.response?.data?.message ?? "Something went wrong");
       });
   };
   return (

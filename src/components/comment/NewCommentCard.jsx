@@ -63,7 +63,7 @@ function NewCommentCard({ id, forComment, getComments }) {
         getComments();
       })
       .catch((err) => {
-        toast.error(err.response?.data?.message ?? "Something went wrong");
+        toast.error(err?.response?.data?.message ?? "Something went wrong");
         setIsLoading(false);
       });
   };

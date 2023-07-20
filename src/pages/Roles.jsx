@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/layout/Header";
+import axios from "../config/axiosConfig";
+import { toast } from "react-toastify";
 import {
-  Box,
   Button,
   Grid,
   Paper,
@@ -9,24 +10,21 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { toast } from "react-toastify";
-import { type } from "@testing-library/user-event/dist/type";
-import TypeCard from "../components/type/TypeCard";
-import axios from "../config/axiosConfig";
+import RoleCard from "../components/role/RoleCard";
 
-function Types() {
+function Roles() {
+  const [roles, setRoles] = useState([]);
   const [name, setName] = React.useState("");
-  const [types, setTypes] = React.useState([]);
 
-  React.useEffect(() => {
-    getTypes();
+  useEffect(() => {
+    getRoles();
   }, []);
 
-  const getTypes = () => {
+  const getRoles = () => {
     axios
-      .get(`/types`)
+      .get("/roles")
       .then((res) => {
-        setTypes(res.data);
+        setRoles(res.data);
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message ?? "Something went wrong");
@@ -37,20 +35,20 @@ function Types() {
     e.preventDefault();
 
     axios
-      .post(`/types`, { name })
+      .post(`/roles`, { name, permissionIds: [] })
       .then((res) => {
-        toast.success("Type added successfully");
-        getTypes();
+        toast.success("Role added successfully");
+        getRoles();
         setName("");
       })
       .catch((err) => {
-        toast.error(err?.response?.data?.message ?? "Something went wrong");
+        toast.error(err?.response.data.message ?? "Something went wrong");
       });
   };
 
   return (
-    <>
-      <Header title="Types" />
+    <div>
+      <Header title="Roles" />
 
       <Grid container spacing={4} p={4}>
         <Grid item xs={12} md={6}>
@@ -58,7 +56,7 @@ function Types() {
             <Paper>
               <Stack spacing={2} p={4}>
                 <Typography variant="h6" align="center">
-                  Add New Type
+                  Add New Role
                 </Typography>
 
                 <TextField
@@ -70,7 +68,7 @@ function Types() {
                 />
 
                 <Button fullWidth variant="contained" type="submit">
-                  Add Type
+                  Add Role
                 </Button>
               </Stack>
             </Paper>
@@ -80,16 +78,16 @@ function Types() {
         <Grid item xs={12} md={6}>
           <Stack spacing={2}>
             <Typography variant="h6" align="center">
-              Issue Types
+              Roles
             </Typography>
-            {types?.map((type) => (
-              <TypeCard type={type} getTypes={getTypes} />
+            {roles?.map((role) => (
+              <RoleCard role={role} getRoles={getRoles} />
             ))}
           </Stack>
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 }
 
-export default Types;
+export default Roles;

@@ -19,6 +19,8 @@ import ResolveIssues from "./pages/ResolveIssues";
 import ListIssues from "./pages/ListIssues";
 import Types from "./pages/Types";
 import Tags from "./pages/Tags";
+import Roles from "./pages/Roles";
+import EditRole from "./pages/EditRole";
 
 function App() {
   const auth = useAuth();
@@ -48,8 +50,12 @@ function App() {
               <Route path="/issues/resolve" element={<ResolveIssues />} />
               <Route path="/issues/list" element={<ListIssues />} />
               <Route path="/issues/board" element={<IssueStatusTracker />} />
+
               <Route path="/settings/types" element={<Types />} />
               <Route path="/settings/tags" element={<Tags />} />
+
+              <Route path="/admin/roles" element={<Roles />} />
+              <Route path="/admin/roles/:id" element={<EditRole />} />
             </Routes>
           </div>
         </>
