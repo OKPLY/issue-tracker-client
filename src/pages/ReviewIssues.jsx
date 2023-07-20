@@ -4,23 +4,34 @@ import Header from "../components/layout/Header";
 import axios from "../config/axiosConfig";
 import React from "react";
 import { STATUS } from "../util/constants";
+import FilterCard from "../components/issue/FilterCard";
 
 export default function ReviewIssues() {
   const [issues, setIssues] = React.useState([]);
+  const [state, setState] = React.useState({});
 
   React.useEffect(() => {
     getIssues();
-  }, []);
+  }, [state]);
 
   const getIssues = () => {
-    axios.get(`/issues/filter?status=${STATUS.CREATED}`).then((res) => {
-      setIssues(res.data);
-    });
+    axios
+      .get(
+        `/issues/filter?status=${STATUS.CREATED}&tagId=${
+          state?.tagId ?? ""
+        }&typeId=${state?.typeId ?? ""}&text=${state?.text ?? ""}`
+      )
+      .then((res) => {
+        setIssues(res.data);
+      });
   };
   return (
     <>
       <Header title="Review Issues" />
-      <Box sx={{ mt: 5 }} />
+      <Box sx={{ mt: 4 }} />
+
+      <FilterCard state={state} setState={setState} hideStatus />
+
       {issues.map((itemData) => {
         return (
           <>

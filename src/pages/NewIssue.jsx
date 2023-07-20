@@ -168,6 +168,7 @@ function NewIssue() {
 
                 <Autocomplete
                   id="types"
+                  required
                   options={types}
                   getOptionLabel={(option) => option.name}
                   autoHighlight={true}
