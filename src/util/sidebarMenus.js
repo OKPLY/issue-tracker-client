@@ -13,6 +13,8 @@ import {
   Pages,
   Pageview,
   Settings,
+  Tag,
+  TypeSpecimen,
   ViewKanban,
 } from "@mui/icons-material";
 export default function (user) {
@@ -67,13 +69,13 @@ export default function (user) {
           to: "/settings/types",
           label: "Types",
           permission: true,
-          icon: <Handshake />,
+          icon: <TypeSpecimen />,
         },
         {
           to: "/settings/tags",
           label: "Tags",
           permission: true,
-          icon: <Handshake />,
+          icon: <Tag />,
         },
       ],
     },

@@ -18,6 +18,7 @@ import "react-medium-image-zoom/dist/styles.css";
 import ResolveIssues from "./pages/ResolveIssues";
 import ListIssues from "./pages/ListIssues";
 import Types from "./pages/Types";
+import Tags from "./pages/Tags";
 
 function App() {
   const auth = useAuth();
@@ -48,6 +49,7 @@ function App() {
               <Route path="/issues/list" element={<ListIssues />} />
               <Route path="/issues/board" element={<IssueStatusTracker />} />
               <Route path="/settings/types" element={<Types />} />
+              <Route path="/settings/tags" element={<Tags />} />
             </Routes>
           </div>
         </>
