@@ -10,15 +10,19 @@ import ShowImagesComponent from "../components/images/ShowImagesComponent";
 import Zoom from "react-medium-image-zoom";
 import NewCommentCard from "../components/comment/NewCommentCard";
 import CommentDetail from "../components/comment/CommentDetail";
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import RelatedIssueCard from "../components/issue/RelatedIssueCard";
 
 function IssueDetails() {
   const [issue, setIssue] = React.useState({});
   const [comments, setComments] = React.useState([]);
+  const [relatedIssues, setRelatedIssues] = React.useState([]);
   const { id } = useParams();
 
   React.useEffect(() => {
     getIssue();
-  }, []);
+  }, [id]);
 
   React.useEffect(() => {
     getComments();
@@ -35,6 +39,15 @@ function IssueDetails() {
       .get(`/issues/${id}`)
       .then((res) => {
         setIssue(res.data);
+      })
+      .catch((err) => {
+        toast.error(err.response?.data?.message ?? "Something went wrong");
+      });
+
+    axios
+      .get(`/issues/${id}/issues`)
+      .then((res) => {
+        setRelatedIssues(res.data);
       })
       .catch((err) => {
         toast.error(err.response?.data?.message ?? "Something went wrong");
@@ -58,11 +71,18 @@ function IssueDetails() {
                   </Stack>
                 </Box>
                 <Typography variant="body2">{issue?.description}</Typography>
-                <Stack direction="row" spacing={2} mt={1}>
-                  {issue?.tags?.map((tag) => (
-                    <Chip label={tag?.name} />
-                  ))}
-                </Stack>
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <Stack direction="row" spacing={2} mt={1}>
+                    {issue?.tags?.map((tag) => (
+                      <Chip label={tag?.name} />
+                    ))}
+                  </Stack>
+                  {issue?.parentIssue?.id && (
+                    <Link to={`/issues/${issue?.parentIssue?.id}`}>
+                      <Button variant="outlined"> Parent Issue </Button>
+                    </Link>
+                  )}
+                </Box>
               </Stack>
             </Paper>
 
@@ -90,6 +110,19 @@ function IssueDetails() {
 
         <Grid item xs={12} lg={3}>
           <Stack spacing={2}>
+            <Typography variant="h6" align="center">
+              Related Issues
+            </Typography>
+
+            {relatedIssues?.length > 0 &&
+              relatedIssues?.map((issue) => <RelatedIssueCard issue={issue} />)}
+
+            <Link to={`/issues/new?issueId=${id}`}>
+              <Button variant="outlined" color="primary" fullWidth>
+                Create New Related Issue
+              </Button>
+            </Link>
+            <Box></Box>
             <IssueUserCard
               title="Creation"
               date={issue?.createdAt}

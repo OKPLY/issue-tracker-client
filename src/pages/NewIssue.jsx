@@ -19,7 +19,7 @@ import axios from "../config/axiosConfig";
 import { Close, Filter } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import SelectImagesComponent from "../components/images/SelectImagesComponent";
-import { Form, useNavigate } from "react-router-dom";
+import { Form, useNavigate, useSearchParams } from "react-router-dom";
 import handleUpload from "../util/uploadFile";
 import NewCommentCard from "../components/comment/NewCommentCard";
 
@@ -29,6 +29,7 @@ const initialState = () => ({
 });
 
 function NewIssue() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [selectedImages, setSelectedImages] = React.useState([]);
   const [state, setState] = React.useState(initialState);
@@ -37,6 +38,7 @@ function NewIssue() {
   const [selectedTags, setSelectedTags] = React.useState([]);
   const [selectedType, setSelectedType] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
+  const issueId = searchParams.get("issueId");
 
   useEffect(() => {
     axios.get("/tags").then((res) => {
@@ -79,8 +81,14 @@ function NewIssue() {
   };
 
   const submit = (data) => {
+    var route = "/issues";
+
+    if (issueId) {
+      route = `/issues/${issueId}/issues`;
+    }
+
     axios
-      .post("/issues", data)
+      .post(route, data)
       .then((res) => {
         toast.success("Issue created successfully");
         setState(initialState());
@@ -103,7 +111,7 @@ function NewIssue() {
 
   return (
     <>
-      <Header title="Create New Issue" />
+      <Header title={issueId ? "Create Related Issue" : "Create New Issue"} />
 
       <Backdrop open={isLoading} sx={{ zIndex: 10000 }}>
         <CircularProgress />
