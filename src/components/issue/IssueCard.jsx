@@ -20,6 +20,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import axios from "../../config/axiosConfig";
+import StatusChip from "./StatusChip";
 
 function IssueCard(props) {
   const { id, title, tags, attachments, description, creator, type, status } =
@@ -60,8 +61,8 @@ function IssueCard(props) {
             gap: 2,
           }}
         >
-          <Chip label={type?.name} />
-          <Chip label={status} variant="outlined" />
+          <Chip label={type?.name} variant="outlined" />
+          <StatusChip label={status} />
         </Grid>
         {attachments?.length > 0 && (
           <Grid item xs={12}>

@@ -8,10 +8,12 @@ import {
   FactCheck,
   Handshake,
   List,
+  ListAlt,
   Newspaper,
   Pages,
   Pageview,
   Settings,
+  ViewKanban,
 } from "@mui/icons-material";
 export default function (user) {
   const menus = [
@@ -44,10 +46,16 @@ export default function (user) {
           icon: <FactCheck />,
         },
         {
-          to: "/issues/closed",
-          label: "Closed Issues",
+          to: "/issues/list",
+          label: "Issue List",
           permission: true,
-          icon: <Handshake />,
+          icon: <ListAlt />,
+        },
+        {
+          to: "/issues/board",
+          label: "Issue Board",
+          permission: true,
+          icon: <ViewKanban />,
         },
       ],
     },

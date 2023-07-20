@@ -15,6 +15,9 @@ import { Link } from "react-router-dom";
 import RelatedIssueCard from "../components/issue/RelatedIssueCard";
 import { STATUS } from "../util/constants";
 import ReviewIssue from "../components/issue/ReviewIssue";
+import ResolveIssues from "./ResolveIssues";
+import ResolveIssue from "../components/issue/ResolveIssue";
+import StatusChip from "../components/issue/StatusChip";
 
 function IssueDetails() {
   const [issue, setIssue] = React.useState({});
@@ -68,8 +71,8 @@ function IssueDetails() {
                   <Typography variant="h6">{issue?.title}</Typography>
 
                   <Stack direction="row" spacing={2}>
-                    <Chip label={issue?.type?.name} />
-                    <Chip label={issue?.status} variant="outlined" />
+                    <Chip label={issue?.type?.name} variant="outlined" />
+                    <StatusChip label={issue?.status} />
                   </Stack>
                 </Box>
                 <Typography variant="body2">{issue?.description}</Typography>
@@ -91,6 +94,12 @@ function IssueDetails() {
             {issue?.status == STATUS.CREATED && (
               <Paper>
                 <ReviewIssue issue={issue} getIssue={getIssue} />
+              </Paper>
+            )}
+
+            {issue?.status == STATUS.ASSIGNED && (
+              <Paper>
+                <ResolveIssue issue={issue} getIssue={getIssue} />
               </Paper>
             )}
 
@@ -118,12 +127,16 @@ function IssueDetails() {
 
         <Grid item xs={12} lg={3}>
           <Stack spacing={2}>
-            <Typography variant="h6" align="center">
-              Related Issues
-            </Typography>
-
-            {relatedIssues?.length > 0 &&
-              relatedIssues?.map((issue) => <RelatedIssueCard issue={issue} />)}
+            {relatedIssues?.length > 0 && (
+              <>
+                <Typography variant="h6" align="center">
+                  Related Issues
+                </Typography>
+                {relatedIssues?.map((issue) => (
+                  <RelatedIssueCard issue={issue} />
+                ))}
+              </>
+            )}
 
             <Link to={`/issues/new?issueId=${id}`}>
               <Button variant="outlined" color="primary" fullWidth>
@@ -143,7 +156,7 @@ function IssueDetails() {
                 user={issue?.reviewer}
               />
             )}
-            {issue?.reviewer && (
+            {issue?.resolver && (
               <IssueUserCard
                 date={issue?.resolvedAt}
                 title={issue?.resolvedAt ? "Resolution" : "Assignee"}

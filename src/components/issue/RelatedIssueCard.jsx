@@ -2,6 +2,7 @@ import { Chip, Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { Link } from "react-router-dom";
+import StatusChip from "./StatusChip";
 
 function RelatedIssueCard({ issue }) {
   return (
@@ -19,7 +20,7 @@ function RelatedIssueCard({ issue }) {
       >
         <Typography>{issue?.title}</Typography>
 
-        <Chip size="small" label={issue?.status} variant="outlined" />
+        <StatusChip small label={issue?.status} />
       </Box>
     </Paper>
   );
