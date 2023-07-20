@@ -29,7 +29,7 @@ function App() {
   }, []);
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", width: "100vw" }}>
+    <div style={{ display: "flex", flexDirection: "row" }}>
       {auth ? (
         <>
           <SideBar />
