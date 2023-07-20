@@ -21,10 +21,20 @@ import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import axios from "../../config/axiosConfig";
 import StatusChip from "./StatusChip";
+import { Stack } from "@mui/system";
 
 function IssueCard(props) {
-  const { id, title, tags, attachments, description, creator, type, status } =
-    props.issue;
+  const {
+    id,
+    title,
+    tags,
+    attachments,
+    description,
+    creator,
+    type,
+    status,
+    createdAt,
+  } = props.issue;
 
   const [comments, setComments] = React.useState([]);
   React.useEffect(() => {
@@ -118,9 +128,14 @@ function IssueCard(props) {
               alt={creator?.firstname}
               src={creator?.profilePicture}
             />
-            <Typography variant="body2">
-              {creator?.firstname} {creator?.lastname}
-            </Typography>
+            <Stack>
+              <Typography variant="body2">
+                {creator?.firstname} {creator?.lastname}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {new Date(createdAt).toLocaleString()}
+              </Typography>
+            </Stack>
           </AvatarLabel>
         </Grid>
         <Grid
@@ -133,11 +148,7 @@ function IssueCard(props) {
           }}
         >
           {/* <Badge color="secondary" badgeContent={comments.length}> */}
-          <Button
-            size="large"
-            sx={{ gap: 1, textTransform: "lowercase" }}
-            color="secondary"
-          >
+          <Button size="large" sx={{ gap: 1, textTransform: "lowercase" }}>
             <CommentIcon color="action" fontSize="large" />
             {comments?.length ?? 0} comments
           </Button>
