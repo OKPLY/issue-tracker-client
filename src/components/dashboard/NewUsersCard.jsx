@@ -16,7 +16,7 @@ export default function NewUsersCard({ data }) {
           New Users
         </Typography>
         <TableContainer>
-          <Table size="small" a>
+          <Table size="small">
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>

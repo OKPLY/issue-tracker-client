@@ -4,8 +4,11 @@ import React from "react";
 import axios from "../../config/axiosConfig";
 import NewCommentCard from "./NewCommentCard";
 import ShowImagesComponent from "../images/ShowImagesComponent";
+import { useAuth } from "../../contexts/AuthContext";
+import { PERMISSION } from "../../util/constants";
 
 function CommentDetail({ comment, forComment }) {
+  const auth = useAuth();
   const [comments, setComments] = React.useState([]);
 
   React.useEffect(() => {
@@ -49,9 +52,10 @@ function CommentDetail({ comment, forComment }) {
               <Typography variant="body2">{comment?.commentText}</Typography>
             </Stack>
 
-            {comment?.attachments?.length > 0 && (
-              <ShowImagesComponent images={comment?.attachments} forComment />
-            )}
+            {auth?.permissions?.includes(PERMISSION.ReadAttachment) &&
+              comment?.attachments?.length > 0 && (
+                <ShowImagesComponent images={comment?.attachments} forComment />
+              )}
 
             {comments?.length > 0 && (
               <Stack spacing={2}>
@@ -61,15 +65,16 @@ function CommentDetail({ comment, forComment }) {
               </Stack>
             )}
 
-            {!forComment && (
-              <Box pt={1}>
-                <NewCommentCard
-                  id={comment?.id}
-                  getComments={getComments}
-                  forComment
-                />
-              </Box>
-            )}
+            {auth?.permissions?.includes(PERMISSION.CreateComment) &&
+              !forComment && (
+                <Box pt={1}>
+                  <NewCommentCard
+                    id={comment?.id}
+                    getComments={getComments}
+                    forComment
+                  />
+                </Box>
+              )}
           </Stack>
         </Stack>
       </Paper>

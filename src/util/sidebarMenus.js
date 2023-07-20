@@ -2,6 +2,8 @@ import {
   AdminPanelSettings,
   BookOnlineSharp,
   Bookmark,
+  Check,
+  CheckBox,
   ConfirmationNumber,
   Create,
   Dashboard,
@@ -23,7 +25,12 @@ import {
   TypeSpecimen,
   ViewKanban,
 } from "@mui/icons-material";
+import { PERMISSION } from "./constants";
 export default function (user) {
+  const hasPermission = (permission) => {
+    return user?.permissions?.includes(permission) ?? false;
+  };
+
   const menus = [
     {
       to: "/",
@@ -38,31 +45,31 @@ export default function (user) {
         {
           to: "/issues/new",
           label: "Create Issue",
-          permission: true,
+          permission: hasPermission(PERMISSION.CreateIssue),
           icon: <Newspaper />,
         },
         {
           to: "/issues/review",
           label: "Review Issues",
-          permission: true,
+          permission: hasPermission(PERMISSION.AssignIssue),
           icon: <Pageview />,
         },
         {
           to: "/issues/resolve",
           label: "Resolve Issues",
-          permission: true,
+          permission: hasPermission(PERMISSION.ResolveIssue),
           icon: <FactCheck />,
         },
         {
           to: "/issues/list",
           label: "Issue List",
-          permission: true,
+          permission: hasPermission(PERMISSION.ReadIssue),
           icon: <ListAlt />,
         },
         {
           to: "/issues/board",
           label: "Issue Board",
-          permission: true,
+          permission: hasPermission(PERMISSION.ReadIssue),
           icon: <ViewKanban />,
         },
       ],
@@ -74,13 +81,13 @@ export default function (user) {
         {
           to: "/settings/types",
           label: "Types",
-          permission: true,
+          permission: hasPermission(PERMISSION.ReadType),
           icon: <TypeSpecimen />,
         },
         {
           to: "/settings/tags",
           label: "Tags",
-          permission: true,
+          permission: hasPermission(PERMISSION.ReadTag),
           icon: <Tag />,
         },
       ],
@@ -99,13 +106,13 @@ export default function (user) {
         {
           to: "/admin/roles",
           label: "Roles",
-          permission: true,
-          icon: <DataArray />,
+          permission: hasPermission(PERMISSION.ReadRole),
+          icon: <CheckBox />,
         },
         {
           to: "/admin/logs",
           label: "Logs",
-          permission: true,
+          permission: hasPermission(PERMISSION.ReadLog),
           icon: <TableRows />,
         },
       ],

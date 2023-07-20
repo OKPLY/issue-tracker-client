@@ -19,8 +19,8 @@ const columns = [
   },
   {
     width: 250,
-    field: "area",
-    headerName: "Area",
+    field: "controller",
+    headerName: "Controller",
     valueGetter: (params) => humanizeString(params.row?.clazz),
   },
   {
@@ -51,7 +51,7 @@ function Logs() {
         setLogs(res.data);
       })
       .catch((err) =>
-        toast.errror(err?.response?.data?.message ?? "Something went wrong")
+        toast.error(err?.response?.data?.message ?? "Something went wrong")
       );
   };
 

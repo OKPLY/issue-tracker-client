@@ -22,6 +22,8 @@ import SelectImagesComponent from "../components/images/SelectImagesComponent";
 import { Form, useNavigate, useSearchParams } from "react-router-dom";
 import handleUpload from "../util/uploadFile";
 import NewCommentCard from "../components/comment/NewCommentCard";
+import { useAuth } from "../contexts/AuthContext";
+import { PERMISSION } from "../util/constants";
 
 const initialState = () => ({
   title: "",
@@ -29,6 +31,7 @@ const initialState = () => ({
 });
 
 function NewIssue() {
+  const auth = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [selectedImages, setSelectedImages] = React.useState([]);
@@ -188,15 +191,16 @@ function NewIssue() {
               </Stack>
             </Paper>
           </Grid>
-
-          <Grid item xs={12} md={8} lg={6}>
-            <Paper elevation={2} sx={{ p: 4 }}>
-              <SelectImagesComponent
-                selectedImages={selectedImages}
-                setSelectedImages={setSelectedImages}
-              />
-            </Paper>
-          </Grid>
+          {auth?.permissions?.includes(PERMISSION.CreateAttachment) && (
+            <Grid item xs={12} md={8} lg={6}>
+              <Paper elevation={2} sx={{ p: 4 }}>
+                <SelectImagesComponent
+                  selectedImages={selectedImages}
+                  setSelectedImages={setSelectedImages}
+                />
+              </Paper>
+            </Grid>
+          )}
 
           <Grid item xs={12}>
             <Button type="submit" fullWidth variant="contained">

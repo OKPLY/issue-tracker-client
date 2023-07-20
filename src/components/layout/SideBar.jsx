@@ -22,6 +22,7 @@ import ListItemLink from "./ListItemLink";
 import SideBarMenuSingle from "./SideBarMenuSingle";
 import { ArrowBackIosNew, Menu } from "@mui/icons-material";
 import { Typography } from "@mui/material";
+import { useAuth } from "../../contexts/AuthContext";
 
 const drawerWidth = 265;
 
@@ -67,7 +68,7 @@ const Drawer = styled(Box, {
 }));
 
 export default function SideBar({}) {
-  const user = "";
+  const user = useAuth();
   const [openDrawer, setOpenDrawer] = useState(true);
 
   const handleDrawerOpen = () => setOpenDrawer((prev) => !prev);
@@ -76,10 +77,7 @@ export default function SideBar({}) {
   const [openIndex, setOpenIndex] = useState(-1);
   const [menus, setMenus] = useState([]);
 
-  useEffect(
-    () => setMenus(sidebarMenus(user?.userAccount)),
-    [user?.userAccount]
-  );
+  useEffect(() => setMenus(sidebarMenus(user)), [user]);
 
   return (
     <Drawer

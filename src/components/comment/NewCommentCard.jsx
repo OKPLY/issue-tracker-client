@@ -16,6 +16,7 @@ import SelectImagesComponent from "../images/SelectImagesComponent";
 import handleUpload from "../../util/uploadFile";
 import axios from "../../config/axiosConfig";
 import { toast } from "react-toastify";
+import { PERMISSION } from "../../util/constants";
 
 function NewCommentCard({ id, forComment, getComments }) {
   const auth = useAuth();
@@ -84,13 +85,14 @@ function NewCommentCard({ id, forComment, getComments }) {
             label="New Comment"
             onChange={(e) => setComment(e.target.value)}
           />
-
-          <Button
-            variant="outlined"
-            onClick={() => setShowAttachment((prev) => !prev)}
-          >
-            <Attachment />
-          </Button>
+          {auth?.permissions?.includes(PERMISSION.CreateAttachment) && (
+            <Button
+              variant="outlined"
+              onClick={() => setShowAttachment((prev) => !prev)}
+            >
+              <Attachment />
+            </Button>
+          )}
 
           <Button type="submit" variant="contained" disabled={isLoading}>
             <Send />

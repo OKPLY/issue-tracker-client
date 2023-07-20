@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import RoleCard from "../components/role/RoleCard";
 import { useNavigate, useParams } from "react-router-dom";
+import humanize from "humanize-string";
 
 function EditRole() {
   const navigate = useNavigate();
@@ -106,7 +107,7 @@ function EditRole() {
                 fullWidth
                 id="permissions"
                 options={permissions}
-                getOptionLabel={(option) => option.name}
+                getOptionLabel={(option) => humanize(option.name)}
                 autoHighlight={true}
                 value={selectedPermissions}
                 onChange={(event, newValue) => {

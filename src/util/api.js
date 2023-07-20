@@ -13,8 +13,21 @@ export default async function signin(data, authUpdate) {
     });
 
     // Save the token to localStorage or any other desired location
-    localStorage.setItem("user", JSON.stringify(response.data));
-    authUpdate(response.data);
+
+    var data = response.data;
+
+    data.permissions = [
+      ...new Set(
+        data?.user?.roles
+          ?.map((role) => role.permissions?.map((p) => p.name))
+          .flat()
+      ),
+    ];
+
+    console.log(data);
+
+    localStorage.setItem("user", JSON.stringify(data));
+    authUpdate(data);
   } catch (error) {
     throw error;
   }

@@ -4,8 +4,11 @@ import React from "react";
 import axios from "../../config/axiosConfig";
 import AlertDialog from "../fragments/AlertDialog";
 import { toast } from "react-toastify";
+import { useAuth } from "../../contexts/AuthContext";
+import { PERMISSION } from "../../util/constants";
 
 function ReviewIssue({ issue, getIssue }) {
+  const auth = useAuth();
   const [users, setUsers] = React.useState([]);
   const [selectedUser, setSelectedUser] = React.useState(null);
   const [openAssign, setOpenAssign] = React.useState(false);
@@ -87,14 +90,15 @@ function ReviewIssue({ issue, getIssue }) {
           <Button sx={{ px: 2 }} type="submit" variant="contained">
             Assign
           </Button>
-
-          <Button
-            variant="outlined"
-            color="error"
-            onClick={() => setOpenClose(true)}
-          >
-            Close
-          </Button>
+          {auth?.permissions?.includes(PERMISSION.CloseIssue) && (
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => setOpenClose(true)}
+            >
+              Close
+            </Button>
+          )}
         </Stack>
         <AlertDialog
           open={openAssign}

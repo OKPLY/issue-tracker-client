@@ -13,13 +13,15 @@ import CommentDetail from "../components/comment/CommentDetail";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import RelatedIssueCard from "../components/issue/RelatedIssueCard";
-import { STATUS } from "../util/constants";
+import { PERMISSION, STATUS } from "../util/constants";
 import ReviewIssue from "../components/issue/ReviewIssue";
 import ResolveIssues from "./ResolveIssues";
 import ResolveIssue from "../components/issue/ResolveIssue";
 import StatusChip from "../components/issue/StatusChip";
+import { useAuth } from "../contexts/AuthContext";
 
 function IssueDetails() {
+  const auth = useAuth();
   const [issue, setIssue] = React.useState({});
   const [comments, setComments] = React.useState([]);
   const [relatedIssues, setRelatedIssues] = React.useState([]);
@@ -91,37 +93,47 @@ function IssueDetails() {
               </Stack>
             </Paper>
 
-            {issue?.status == STATUS.CREATED && (
-              <Paper>
-                <ReviewIssue issue={issue} getIssue={getIssue} />
-              </Paper>
-            )}
+            {issue?.status == STATUS.CREATED &&
+              auth?.permissions?.includes(PERMISSION.AssignIssue) && (
+                <Paper>
+                  <ReviewIssue issue={issue} getIssue={getIssue} />
+                </Paper>
+              )}
 
-            {issue?.status == STATUS.ASSIGNED && (
-              <Paper>
-                <ResolveIssue issue={issue} getIssue={getIssue} />
-              </Paper>
-            )}
+            {issue?.status == STATUS.ASSIGNED &&
+              auth?.permissions?.includes(PERMISSION.ResolveIssue) && (
+                <Paper>
+                  <ResolveIssue issue={issue} getIssue={getIssue} />
+                </Paper>
+              )}
 
-            {issue?.attachments?.length > 0 && (
-              <Paper>
-                <Stack p={2} pb={1}>
-                  <Typography variant="h6" align="center">
-                    Attachments
-                  </Typography>
-                  <ShowImagesComponent images={issue?.attachments} />
-                </Stack>
-              </Paper>
+            {auth?.permissions?.includes(PERMISSION.ReadAttachment) &&
+              issue?.attachments?.length > 0 && (
+                <Paper>
+                  <Stack p={2} pb={1}>
+                    <Typography variant="h6" align="center">
+                      Attachments
+                    </Typography>
+                    <ShowImagesComponent images={issue?.attachments} />
+                  </Stack>
+                </Paper>
+              )}
+            {auth?.permissions?.includes(PERMISSION.ReadComment) && (
+              <>
+                <Typography variant="h6" align="center">
+                  {comments?.length > 0 && comments?.length} Comments
+                </Typography>
+                {auth?.permissions?.includes(PERMISSION.CreateComment) && (
+                  <Paper elevation={2} sx={{ p: 2 }}>
+                    <NewCommentCard id={id} getComments={getComments} />
+                  </Paper>
+                )}
+                {comments?.length > 0 &&
+                  comments?.map((comment) => (
+                    <CommentDetail comment={comment} />
+                  ))}
+              </>
             )}
-
-            <Typography variant="h6" align="center">
-              {comments?.length > 0 && comments?.length} Comments
-            </Typography>
-            <Paper elevation={2} sx={{ p: 2 }}>
-              <NewCommentCard id={id} getComments={getComments} />
-            </Paper>
-            {comments?.length > 0 &&
-              comments?.map((comment) => <CommentDetail comment={comment} />)}
           </Stack>
         </Grid>
 

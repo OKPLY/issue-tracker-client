@@ -22,8 +22,11 @@ import { Link } from "react-router-dom";
 import axios from "../../config/axiosConfig";
 import StatusChip from "./StatusChip";
 import { Stack } from "@mui/system";
+import { PERMISSION } from "../../util/constants";
+import { useAuth } from "../../contexts/AuthContext";
 
 function IssueCard(props) {
+  const auth = useAuth();
   const {
     id,
     title,
@@ -74,44 +77,45 @@ function IssueCard(props) {
           <Chip label={type?.name} variant="outlined" />
           <StatusChip label={status} />
         </Grid>
-        {attachments?.length > 0 && (
-          <Grid item xs={12}>
-            <CardContent sx={{ padding: 0, paddingBottom: "0 !important" }}>
-              <CardMedia sx={{ padding: 0 }}>
-                {attachments?.length > 0 ? (
-                  <ImageList
-                    sx={{
-                      maxHeight: 350,
-                      borderRadius: "10px",
-                      margin: 0,
-                      padding: 0,
-                    }}
-                    cols={3}
-                    rowHeight={160}
-                  >
-                    {attachments
-                      ?.filter((x, idx) => idx < 3)
-                      .map((item) => (
-                        <ImageListItem
-                          key={item?.url}
-                          sx={{ borderRadius: "10px" }}
-                        >
-                          <img
-                            style={{ borderRadius: "10px" }}
-                            src={item?.url}
-                            alt={item.title}
-                            loading="lazy"
-                          />
-                        </ImageListItem>
-                      ))}
-                  </ImageList>
-                ) : (
-                  ""
-                )}
-              </CardMedia>
-            </CardContent>
-          </Grid>
-        )}
+        {auth?.permissions?.includes(PERMISSION.ReadAttachment) &&
+          attachments?.length > 0 && (
+            <Grid item xs={12}>
+              <CardContent sx={{ padding: 0, paddingBottom: "0 !important" }}>
+                <CardMedia sx={{ padding: 0 }}>
+                  {attachments?.length > 0 ? (
+                    <ImageList
+                      sx={{
+                        maxHeight: 350,
+                        borderRadius: "10px",
+                        margin: 0,
+                        padding: 0,
+                      }}
+                      cols={3}
+                      rowHeight={160}
+                    >
+                      {attachments
+                        ?.filter((x, idx) => idx < 3)
+                        .map((item) => (
+                          <ImageListItem
+                            key={item?.url}
+                            sx={{ borderRadius: "10px" }}
+                          >
+                            <img
+                              style={{ borderRadius: "10px" }}
+                              src={item?.url}
+                              alt={item.title}
+                              loading="lazy"
+                            />
+                          </ImageListItem>
+                        ))}
+                    </ImageList>
+                  ) : (
+                    ""
+                  )}
+                </CardMedia>
+              </CardContent>
+            </Grid>
+          )}
         <Grid item xs={12} sx={{ display: "flex", gap: 3 }}>
           {tags?.map((it) => {
             return <Chip label={it?.name} />;

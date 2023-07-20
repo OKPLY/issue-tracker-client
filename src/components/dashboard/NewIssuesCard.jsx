@@ -16,7 +16,7 @@ export default function NewIssuesCard({ data }) {
           New Users
         </Typography>
         <TableContainer>
-          <Table size="small" a>
+          <Table size="small">
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
