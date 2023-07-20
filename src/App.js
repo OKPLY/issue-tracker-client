@@ -21,6 +21,7 @@ import Types from "./pages/Types";
 import Tags from "./pages/Tags";
 import Roles from "./pages/Roles";
 import EditRole from "./pages/EditRole";
+import Logs from "./pages/Logs";
 
 function App() {
   const auth = useAuth();
@@ -54,6 +55,7 @@ function App() {
               <Route path="/settings/types" element={<Types />} />
               <Route path="/settings/tags" element={<Tags />} />
 
+              <Route path="/admin/logs" element={<Logs />} />
               <Route path="/admin/roles" element={<Roles />} />
               <Route path="/admin/roles/:id" element={<EditRole />} />
             </Routes>
