@@ -23,13 +23,15 @@ function PieChartCard({ title, data, categories }) {
 
     series: {
       type: "pie",
+      radius: "60%",
+
       data: dataState.map((data, idx) => ({
         value: data,
         name: categoriesState?.at(idx),
       })),
     },
 
-    roseType: "area",
+    roseType: "radius",
     tooltip: {
       trigger: "item",
     },

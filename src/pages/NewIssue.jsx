@@ -150,6 +150,7 @@ function NewIssue() {
                 />
                 <Autocomplete
                   multiple
+                  disableCloseOnSelect
                   id="tags"
                   options={tags}
                   getOptionLabel={(option) => option.name}
@@ -183,6 +184,7 @@ function NewIssue() {
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      required
                       label="Issue Type"
                       placeholder="Issue Type"
                     />

@@ -30,10 +30,10 @@ export default function NewUsersCard({ data }) {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.firstName} {row.lastName}
+                    {row.firstname} {row.lastname}
                   </TableCell>
                   <TableCell align="right">
-                    {new Date().toLocaleDateString()}
+                    {new Date(row.createdAt).toLocaleDateString()}
                   </TableCell>
                 </TableRow>
               ))}

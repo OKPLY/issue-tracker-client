@@ -10,10 +10,12 @@ import Header from "../components/layout/Header";
 import NewIssuesCard from "../components/dashboard/NewIssuesCard";
 import { useAuth } from "../contexts/AuthContext";
 import { PERMISSION } from "../util/constants";
+import axios from "../config/axiosConfig";
 
 function Dashboard() {
   const auth = useAuth();
   const navigate = useNavigate();
+  const [state, setState] = React.useState({});
 
   const showDashboard = auth?.permissions?.includes(PERMISSION.ReadDashboard);
 
@@ -21,7 +23,35 @@ function Dashboard() {
     if (!auth) {
       navigate("/signin");
     }
+
+    getData();
   }, []);
+
+  const getData = () => {
+    axios
+      .get("/users/aggregate")
+      .then((res) => setState((prev) => ({ ...prev, user: res.data })));
+
+    axios
+      .get("/users/recentUsers?limit=10")
+      .then((res) => setState((prev) => ({ ...prev, newUsers: res.data })));
+
+    axios
+      .get("/issues/recentIssues?limit=10")
+      .then((res) => setState((prev) => ({ ...prev, newIssues: res.data })));
+
+    axios
+      .get("/issues/aggregate/tag?limit=10")
+      .then((res) => setState((prev) => ({ ...prev, tags: res.data })));
+
+    axios
+      .get("/types/aggregate")
+      .then((res) => setState((prev) => ({ ...prev, types: res.data })));
+
+    axios
+      .get("/issues/aggregate/all-date")
+      .then((res) => setState((prev) => ({ ...prev, issues: res.data })));
+  };
 
   return (
     <>
@@ -30,47 +60,33 @@ function Dashboard() {
         <Grid item xs={12} lg={showDashboard ? 9 : 12}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={3}>
-              <StatCard title="Created Issues" value={14} />
+              <StatCard title="Created Issues" value={state?.user?.created} />
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
-              <StatCard title="Created Issues" value={14} />
+              <StatCard title="Reviewed Issues" value={state?.user?.reviewed} />
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
-              <StatCard title="Created Issues" value={14} />
+              <StatCard title="Resolved Issues" value={state?.user?.resolved} />
             </Grid>
             <Grid item xs={12} md={6} lg={3}>
-              <StatCard title="Created Issues" value={14} />
+              <StatCard title="Closed Issues" value={state?.user?.closed} />
             </Grid>
             {showDashboard && (
               <>
                 <Grid item xs={12} lg={7}>
                   <BarChartCard
-                    title="Issue Status Distribution"
-                    labels={[
-                      "Mon",
-                      "Tues",
-                      "Wed",
-                      "Thrus",
-                      "Fri",
-                      "Sat",
-                      "Sun",
-                    ]}
-                    data={[[120, 200, 150, 80, 70, 110, 130]]}
+                    title="Top Issue Tags"
+                    labels={state?.tags?.map((tag) => tag?.tagName) ?? []}
+                    data={[state?.tags?.map((tag) => tag?.count) ?? []]}
                     categories={["Tags"]}
                   />
                 </Grid>
 
                 <Grid item xs={12} lg={5}>
                   <PieChartCard
-                    title="Issue Status Distribution"
-                    data={[120, 200, 150, 80, 70]}
-                    categories={[
-                      "Open",
-                      "Closed",
-                      "Resolved",
-                      "In Progress",
-                      "Pending",
-                    ]}
+                    title="Issue Type Distribution"
+                    data={state?.types?.map((type) => type?.count) ?? []}
+                    categories={state?.types?.map((type) => type?.type) ?? []}
                   />
                 </Grid>
               </>
@@ -79,16 +95,24 @@ function Dashboard() {
             <Grid item xs={12}>
               <LineChartCard
                 title="Issue Status In The Previous Month"
-                labels={["Mon", "Tues", "Wed", "Thrus", "Fri", "Sat", "Sun"]}
+                labels={Object.keys(state?.issues ?? {}).map((x) =>
+                  new Date(x).toLocaleDateString()
+                )}
                 data={[
-                  [120, 200, 150, 80, 70, 110, 130],
-                  [90, 100, 50, 40, 70, 110, 130],
-                  [70, 80, 250, 90, 100, 110, 110],
+                  Object.values(state?.issues ?? {}).map(
+                    (x) => x?.created ?? 0
+                  ),
+                  Object.values(state?.issues ?? {}).map(
+                    (x) => x?.reviewed ?? 0
+                  ),
+                  Object.values(state?.issues ?? {}).map(
+                    (x) => x?.resolved ?? 0
+                  ),
                 ]}
                 categories={[
                   "Created Issues",
+                  "Reviewed Issues",
                   "Resolved Issues",
-                  "Closed Issues",
                 ]}
               />
             </Grid>
@@ -98,19 +122,10 @@ function Dashboard() {
           <Grid item xs={12} lg={3}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <NewUsersCard
-                  data={Array(10).fill({
-                    firstName: "Maggie",
-                    lastName: "Geremew",
-                  })}
-                />
+                <NewUsersCard data={state?.newUsers ?? []} />
               </Grid>
               <Grid item xs={12}>
-                <NewIssuesCard
-                  data={Array(10).fill({
-                    title: "Issue Title",
-                  })}
-                />
+                <NewIssuesCard data={state?.newIssues ?? []} />
               </Grid>
             </Grid>
           </Grid>

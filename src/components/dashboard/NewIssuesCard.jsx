@@ -13,7 +13,7 @@ export default function NewIssuesCard({ data }) {
     <Paper>
       <Box padding={2}>
         <Typography variant="h6" align="center" mb={1}>
-          New Users
+          New Issues
         </Typography>
         <TableContainer>
           <Table size="small">
