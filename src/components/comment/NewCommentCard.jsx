@@ -72,7 +72,10 @@ function NewCommentCard({ id, forComment, getComments }) {
     <form onSubmit={handleSubmit}>
       <Stack>
         <Stack direction="row" spacing={2}>
-          <Avatar alt={auth?.firstname} src={auth?.profilePicture} />
+          <Avatar
+            alt={auth?.user?.firstname}
+            src={auth?.user?.profilePicture}
+          />
           <TextField
             required
             size="small"

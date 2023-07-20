@@ -1,6 +1,8 @@
 import { Box, Container } from "@mui/material";
 import IssueCard from "../components/issue/IssueCard";
 import Header from "../components/layout/Header";
+import axios from "../config/axiosConfig";
+import React from "react";
 
 export function ReviewIssues() {
   const tags = ["#tag1", "#tag2", "#tag3", "#tag4", "#tag5"];
@@ -46,11 +48,23 @@ export function ReviewIssues() {
   };
   const issue2 = { ...issue };
   const items = [issue, issue2];
+
+  const [issues, setIssues] = React.useState([]);
+
+  React.useEffect(() => {
+    getIssues();
+  }, []);
+
+  const getIssues = () => {
+    axios.get(`/issues/filter?status=CREATED`).then((res) => {
+      setIssues(res.data);
+    });
+  };
   return (
     <>
       <Header title="Review Issues" />
-      <Box sx={{ mt: 10 }} />
-      {items.map((itemData) => {
+      <Box sx={{ mt: 5 }} />
+      {issues.map((itemData) => {
         return (
           <>
             <IssueCard issue={itemData} />

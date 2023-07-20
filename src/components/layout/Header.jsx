@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
-import { useAuthUpdate } from "../../contexts/AuthContext";
+import { useAuth, useAuthUpdate } from "../../contexts/AuthContext";
 
 const settings = ["Profile", "Logout"];
 
@@ -21,6 +21,7 @@ function Header({ title }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
   const authUpdate = useAuthUpdate();
+  const auth = useAuth();
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -63,7 +64,10 @@ function Header({ title }) {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar
+                    alt={auth?.user?.firstname}
+                    src={auth?.user?.profilePicture}
+                  />
                 </IconButton>
               </Tooltip>
               <Menu

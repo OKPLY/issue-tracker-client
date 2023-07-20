@@ -1,9 +1,16 @@
 import {
   AdminPanelSettings,
+  BookOnlineSharp,
+  Bookmark,
   ConfirmationNumber,
+  Create,
   Dashboard,
   FactCheck,
   Handshake,
+  List,
+  Newspaper,
+  Pages,
+  Pageview,
   Settings,
 } from "@mui/icons-material";
 export default function (user) {
@@ -22,19 +29,19 @@ export default function (user) {
           to: "/issues/new",
           label: "Create Issue",
           permission: true,
-          icon: <FactCheck />,
+          icon: <Newspaper />,
         },
         {
           to: "/issues/review",
           label: "Review Issues",
           permission: true,
-          icon: <Handshake />,
+          icon: <Pageview />,
         },
         {
           to: "/issues/resolve",
           label: "Resolve Issues",
           permission: true,
-          icon: <Handshake />,
+          icon: <FactCheck />,
         },
         {
           to: "/issues/closed",

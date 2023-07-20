@@ -1,0 +1,6 @@
+export const STATUS = {
+  CREATED: "CREATED",
+  REVIEWED: "REVIEWED",
+  RESOLVED: "RESOLVED",
+  CLOSED: "CLOSED",
+};

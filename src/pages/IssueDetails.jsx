@@ -13,6 +13,8 @@ import CommentDetail from "../components/comment/CommentDetail";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import RelatedIssueCard from "../components/issue/RelatedIssueCard";
+import { STATUS } from "../util/constants";
+import ReviewIssue from "../components/issue/ReviewIssue";
 
 function IssueDetails() {
   const [issue, setIssue] = React.useState({});
@@ -86,6 +88,12 @@ function IssueDetails() {
               </Stack>
             </Paper>
 
+            {issue?.status == STATUS.CREATED && (
+              <Paper>
+                <ReviewIssue issue={issue} getIssue={getIssue} />
+              </Paper>
+            )}
+
             {issue?.attachments?.length > 0 && (
               <Paper>
                 <Stack p={2} pb={1}>
@@ -98,7 +106,7 @@ function IssueDetails() {
             )}
 
             <Typography variant="h6" align="center">
-              Comments
+              {comments?.length > 0 && comments?.length} Comments
             </Typography>
             <Paper elevation={2} sx={{ p: 2 }}>
               <NewCommentCard id={id} getComments={getComments} />
@@ -138,7 +146,7 @@ function IssueDetails() {
             {issue?.reviewer && (
               <IssueUserCard
                 date={issue?.resolvedAt}
-                title="Resolution"
+                title={issue?.resolvedAt ? "Resolution" : "Assignee"}
                 user={issue?.resolver}
               />
             )}
