@@ -30,27 +30,27 @@ function Dashboard() {
   const getData = () => {
     axios
       .get("/users/aggregate")
-      .then((res) => setState((prev) => ({ ...prev, user: res.data })));
+      .then((res) => setState((prev) => ({ ...prev, user: res?.data })));
 
     axios
       .get("/users/recentUsers?limit=10")
-      .then((res) => setState((prev) => ({ ...prev, newUsers: res.data })));
+      .then((res) => setState((prev) => ({ ...prev, newUsers: res?.data })));
 
     axios
       .get("/issues/recentIssues?limit=10")
-      .then((res) => setState((prev) => ({ ...prev, newIssues: res.data })));
+      .then((res) => setState((prev) => ({ ...prev, newIssues: res?.data })));
 
     axios
       .get("/issues/aggregate/tag?limit=10")
-      .then((res) => setState((prev) => ({ ...prev, tags: res.data })));
+      .then((res) => setState((prev) => ({ ...prev, tags: res?.data })));
 
     axios
       .get("/types/aggregate")
-      .then((res) => setState((prev) => ({ ...prev, types: res.data })));
+      .then((res) => setState((prev) => ({ ...prev, types: res?.data })));
 
     axios
       .get("/issues/aggregate/all-date")
-      .then((res) => setState((prev) => ({ ...prev, issues: res.data })));
+      .then((res) => setState((prev) => ({ ...prev, issues: res?.data })));
   };
 
   return (

@@ -1,5 +1,6 @@
 import { Alert } from "@mui/material";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 axios.defaults.baseURL = "http://localhost:8080";
 
@@ -38,6 +39,12 @@ axiosInstance.interceptors.response.use(
       // Handle token expiration or invalid token error
       // You can redirect to the login page or display a message to the user
       Alert("Session expired. Please log in again.");
+    }
+
+    if (error.response?.status === 403) {
+      toast.error("You are not authorized to perform this action.", {
+        toastId: 1234567890,
+      });
     }
 
     return Promise.reject(error);

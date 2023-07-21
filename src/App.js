@@ -22,6 +22,8 @@ import Tags from "./pages/Tags";
 import Roles from "./pages/Roles";
 import EditRole from "./pages/EditRole";
 import Logs from "./pages/Logs";
+import Users from "./pages/Users";
+import EditUser from "./pages/EditUser";
 
 function App() {
   const auth = useAuth();
@@ -58,6 +60,8 @@ function App() {
               <Route path="/admin/logs" element={<Logs />} />
               <Route path="/admin/roles" element={<Roles />} />
               <Route path="/admin/roles/:id" element={<EditRole />} />
+              <Route path="/admin/users" element={<Users />} />
+              <Route path="/admin/users/:id" element={<EditUser />} />
             </Routes>
           </div>
         </>

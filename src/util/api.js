@@ -24,8 +24,6 @@ export default async function signin(data, authUpdate) {
       ),
     ];
 
-    console.log(data);
-
     localStorage.setItem("user", JSON.stringify(data));
     authUpdate(data);
   } catch (error) {
