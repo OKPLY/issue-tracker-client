@@ -45,10 +45,10 @@ function Users() {
 
   return (
     <>
-      <Header title={"Logs"} />
+      <Header title={"Users"} />
       <Stack p={4} pt={2} spacing={2}>
         <Typography variant="h6" align="center">
-          System Logs
+          System Users
         </Typography>
         <DataGrid
           rows={users}
