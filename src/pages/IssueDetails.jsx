@@ -100,7 +100,8 @@ function IssueDetails() {
                 </Paper>
               )}
 
-            {issue?.status == STATUS.ASSIGNED &&
+            {issue?.resolver?.id == auth?.user?.id &&
+              issue?.status == STATUS.ASSIGNED &&
               auth?.permissions?.includes(PERMISSION.ResolveIssue) && (
                 <Paper>
                   <ResolveIssue issue={issue} getIssue={getIssue} />

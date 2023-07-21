@@ -3,7 +3,8 @@ import SignIn from "./pages/Signin";
 import SignUp from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import { useEffect, useState } from "react";
-import { Box, Container, Stack } from "@mui/material";
+import { Box, Container, Stack, ThemeProvider } from "@mui/material";
+import { theme } from "./theme";
 import SideBar from "./components/layout/SideBar";
 import IssueCard from "./components/issue/IssueCard";
 import ReviewIssues from "./pages/ReviewIssues";
@@ -28,6 +29,15 @@ import EditUser from "./pages/EditUser";
 function App() {
   const auth = useAuth();
   const authUpdate = useAuthUpdate();
+  const [customTheme, setCustomThem] = useState();
+
+  useEffect(() => {
+    setCustomThem({
+      sideBg: "#1F2937",
+      navBg: "#1F2937",
+      logo: "/logo.png",
+    });
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("user")) {
@@ -36,43 +46,45 @@ function App() {
   }, []);
 
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
-      {auth ? (
-        <>
-          <SideBar />
-          <div style={{ flexGrow: 1 }}>
-            <Routes>
-              <Route path="/signin" element={<Navigate to="/" />} />
-              <Route path="/signUp" element={<Navigate to="/" />} />
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/account" element={<Profile />} />
+    <ThemeProvider theme={theme(customTheme)}>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        {auth ? (
+          <>
+            <SideBar />
+            <div style={{ flexGrow: 1 }}>
+              <Routes>
+                <Route path="/signin" element={<Navigate to="/" />} />
+                <Route path="/signUp" element={<Navigate to="/" />} />
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/account" element={<Profile />} />
 
-              <Route path="/issues/:id" element={<IssueDetails />} />
-              <Route path="/issues/new" element={<NewIssue />} />
-              <Route path="/issues/review" element={<ReviewIssues />} />
-              <Route path="/issues/resolve" element={<ResolveIssues />} />
-              <Route path="/issues/list" element={<ListIssues />} />
-              <Route path="/issues/board" element={<IssueStatusTracker />} />
+                <Route path="/issues/:id" element={<IssueDetails />} />
+                <Route path="/issues/new" element={<NewIssue />} />
+                <Route path="/issues/review" element={<ReviewIssues />} />
+                <Route path="/issues/resolve" element={<ResolveIssues />} />
+                <Route path="/issues/list" element={<ListIssues />} />
+                <Route path="/issues/board" element={<IssueStatusTracker />} />
 
-              <Route path="/settings/types" element={<Types />} />
-              <Route path="/settings/tags" element={<Tags />} />
+                <Route path="/settings/types" element={<Types />} />
+                <Route path="/settings/tags" element={<Tags />} />
 
-              <Route path="/admin/logs" element={<Logs />} />
-              <Route path="/admin/roles" element={<Roles />} />
-              <Route path="/admin/roles/:id" element={<EditRole />} />
-              <Route path="/admin/users" element={<Users />} />
-              <Route path="/admin/users/:id" element={<EditUser />} />
-            </Routes>
-          </div>
-        </>
-      ) : (
-        <Routes>
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/" element={<Navigate to="/signin" />} />
-        </Routes>
-      )}
-    </div>
+                <Route path="/admin/logs" element={<Logs />} />
+                <Route path="/admin/roles" element={<Roles />} />
+                <Route path="/admin/roles/:id" element={<EditRole />} />
+                <Route path="/admin/users" element={<Users />} />
+                <Route path="/admin/users/:id" element={<EditUser />} />
+              </Routes>
+            </div>
+          </>
+        ) : (
+          <Routes>
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signUp" element={<SignUp />} />
+            <Route path="/" element={<Navigate to="/signin" />} />
+          </Routes>
+        )}
+      </div>
+    </ThemeProvider>
   );
 }
 

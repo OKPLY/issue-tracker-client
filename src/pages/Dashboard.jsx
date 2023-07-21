@@ -27,6 +27,11 @@ function Dashboard() {
     getData();
   }, []);
 
+  console.log(state?.issues);
+  console.log(
+    (state?.issues ?? []).map((x) => Object.values(x)?.at(0)?.created)
+  );
+
   const getData = () => {
     axios
       .get("/users/aggregate")
@@ -94,19 +99,19 @@ function Dashboard() {
 
             <Grid item xs={12}>
               <LineChartCard
-                title="Issue Status In The Previous Month"
-                labels={Object.keys(state?.issues ?? {}).map((x) =>
-                  new Date(x).toLocaleDateString()
+                title="Issue Status In The Last Two Weeks"
+                labels={(state?.issues ?? []).map((x) =>
+                  new Date(Object.keys(x)?.at(0)).toLocaleDateString()
                 )}
                 data={[
-                  Object.values(state?.issues ?? {}).map(
-                    (x) => x?.created ?? 0
+                  (state?.issues ?? []).map(
+                    (x) => Object.values(x)?.at(0)?.created ?? 0
                   ),
-                  Object.values(state?.issues ?? {}).map(
-                    (x) => x?.reviewed ?? 0
+                  (state?.issues ?? []).map(
+                    (x) => Object.values(x)?.at(0)?.reviewed ?? 0
                   ),
-                  Object.values(state?.issues ?? {}).map(
-                    (x) => x?.resolved ?? 0
+                  (state?.issues ?? []).map(
+                    (x) => Object.values(x)?.at(0)?.resolved ?? 0
                   ),
                 ]}
                 categories={[

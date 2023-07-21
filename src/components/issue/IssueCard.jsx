@@ -117,9 +117,11 @@ function IssueCard(props) {
             </Grid>
           )}
         <Grid item xs={12} sx={{ display: "flex", gap: 3 }}>
-          {tags?.map((it) => {
-            return <Chip label={it?.name} />;
-          })}
+          {tags
+            ?.filter((_, idx) => idx < 6)
+            ?.map((it) => {
+              return <Chip label={it?.name} />;
+            })}
         </Grid>
         <Grid
           item
