@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../contexts/AuthContext";
 import { PERMISSION } from "../../util/constants";
 
-function ReviewIssue({ issue, getIssue }) {
+function ReviewIssue({ issue, getIssue, hideClose }) {
   const auth = useAuth();
   const [users, setUsers] = React.useState([]);
   const [selectedUser, setSelectedUser] = React.useState(null);
@@ -90,7 +90,7 @@ function ReviewIssue({ issue, getIssue }) {
           <Button sx={{ px: 2 }} type="submit" variant="contained">
             Assign
           </Button>
-          {auth?.permissions?.includes(PERMISSION.CloseIssue) && (
+          {!hideClose && auth?.permissions?.includes(PERMISSION.CloseIssue) && (
             <Button
               variant="outlined"
               color="error"

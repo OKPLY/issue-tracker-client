@@ -2,81 +2,77 @@ import { useState } from "react";
 import {
   Avatar,
   Button,
+  CircularProgress,
   Container,
   Grid,
+  LinearProgress,
   TextField,
   Typography,
 } from "@mui/material";
 import handleUpload from "../util/uploadFile";
 import Header from "../components/layout/Header";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth, useAuthUpdate } from "../contexts/AuthContext";
 import axiosInstance from "../config/axiosConfig";
+import { useNavigate } from "react-router";
 
 function ProfileEditor() {
+  const navigate = useNavigate();
+  const authUpdate = useAuthUpdate();
   const auth = useAuth();
-  const { firstname, lastname } = auth.user;
+  const { firstname, lastname, id } = auth.user;
   const [firstName, setFirstName] = useState(firstname);
   const [lastName, setLastName] = useState(lastname);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(auth.user.email);
   const [password, setPassword] = useState("");
-  const [profilePicture, setProfilePicture] = useState();
+  const [profilePicture, setProfilePicture] = useState(
+    auth.user.profilePicture
+  );
 
   const [errors, setErrors] = useState({});
-  const [url, setUrl] = useState();
-  const [percent, setPercent] = useState();
+  // const [url, setUrl] = useState();
+  const [percent, setPercent] = useState(0);
 
   const handleProfilePictureUpload = (event) => {
     const file = event.target.files[0];
-    // Perform any additional handling of the uploaded file if needed
-    setProfilePicture(file);
-    handleUpload(file, setPercent, setUrl);
-    console.log(">>> url", url);
+    handleUpload(file, setPercent, setProfilePicture);
+    // setProfilePicture(url);
   };
 
   const handleSaveProfile = async () => {
     const validationErrors = {};
-    // Validate first name
     if (!firstName.trim()) {
       validationErrors.firstName = "First Name is required";
     }
-    // Validate last name
     if (!lastName.trim()) {
       validationErrors.lastName = "Last Name is required";
     }
-    // Validate email
     if (!email.trim()) {
       validationErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       validationErrors.email = "Email is invalid";
     }
-    // Validate password
     if (!password.trim()) {
       validationErrors.password = "Password is required";
     } else if (password.length < 6) {
       validationErrors.password = "Password should be at least 6 characters";
     }
-    // Add additional validation rules if needed
 
-    // Set the validation errors
     setErrors(validationErrors);
 
     // If there are no validation errors, proceed with saving the profile
     if (Object.keys(validationErrors).length === 0) {
-      // Perform saving profile logic here
-      // await axiosInstance.put("", {
-      //   firstname: firstName,
-      //   lastname: lastName,
-      //   profilePicture: url,
-      //   email: email,
-      //   password: password,
-      // });
-
-      console.log("Profile Saved");
-      console.log("First Name:", firstName);
-      console.log("Last Name:", lastName);
-      console.log("Email:", email);
-      console.log("Password:", password);
-      console.log("Profile Picture:", profilePicture);
+      const res = await axiosInstance.put(`/users/${id}`, {
+        firstname: firstName,
+        lastname: lastName,
+        profilePicture: profilePicture,
+        email: email,
+        password: password,
+      });
+      authUpdate({
+        ...auth,
+        user: res.data,
+      });
+      navigate("/");
     }
   };
 
@@ -89,7 +85,7 @@ function ProfileEditor() {
             <label htmlFor="profilePictureInput">
               <Avatar
                 alt="Profile Picture"
-                src={profilePicture ? URL.createObjectURL(profilePicture) : ""}
+                src={profilePicture}
                 sx={{
                   width: 150,
                   height: 150,
@@ -97,6 +93,15 @@ function ProfileEditor() {
                   m: "auto",
                 }}
               />
+              {percent && percent !== 100 ? (
+                <LinearProgress
+                  sx={{ mt: 1 }}
+                  variant="determinate"
+                  value={percent}
+                />
+              ) : (
+                ""
+              )}
               <input
                 type="file"
                 id="profilePictureInput"
