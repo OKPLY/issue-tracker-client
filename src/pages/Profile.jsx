@@ -9,13 +9,18 @@ import {
 } from "@mui/material";
 import handleUpload from "../util/uploadFile";
 import Header from "../components/layout/Header";
+import { useAuth } from "../contexts/AuthContext";
+import axiosInstance from "../config/axiosConfig";
 
 function ProfileEditor() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const auth = useAuth();
+  const { firstname, lastname } = auth.user;
+  const [firstName, setFirstName] = useState(firstname);
+  const [lastName, setLastName] = useState(lastname);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [profilePicture, setProfilePicture] = useState(null);
+  const [profilePicture, setProfilePicture] = useState();
+
   const [errors, setErrors] = useState({});
   const [url, setUrl] = useState();
   const [percent, setPercent] = useState();
@@ -28,7 +33,7 @@ function ProfileEditor() {
     console.log(">>> url", url);
   };
 
-  const handleSaveProfile = () => {
+  const handleSaveProfile = async () => {
     const validationErrors = {};
     // Validate first name
     if (!firstName.trim()) {
@@ -58,6 +63,14 @@ function ProfileEditor() {
     // If there are no validation errors, proceed with saving the profile
     if (Object.keys(validationErrors).length === 0) {
       // Perform saving profile logic here
+      // await axiosInstance.put("", {
+      //   firstname: firstName,
+      //   lastname: lastName,
+      //   profilePicture: url,
+      //   email: email,
+      //   password: password,
+      // });
+
       console.log("Profile Saved");
       console.log("First Name:", firstName);
       console.log("Last Name:", lastName);

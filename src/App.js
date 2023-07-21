@@ -42,8 +42,8 @@ function App() {
           <SideBar />
           <div style={{ flexGrow: 1 }}>
             <Routes>
-              <Route path="/signin" element={<Navigate to="/" />} />
-              <Route path="/signUp" element={<Navigate to="/" />} />
+              {/* <Route path="/signin" element={<Navigate to="/" />} /> */}
+              {/* <Route path="/signUp" element={<Navigate to="/" />} /> */}
               <Route path="/" element={<Dashboard />} />
               <Route path="/account" element={<Profile />} />
 

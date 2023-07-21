@@ -44,7 +44,7 @@ export async function signup(data, authUpdate) {
     //console.log("heree>>>", res);
 
     localStorage.setItem("user", JSON.stringify(response.data));
-    authUpdate(response.data);
+    // authUpdate(response.data);
   } catch (error) {
     throw error;
   }
