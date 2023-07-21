@@ -5,8 +5,10 @@ import axios from "../config/axiosConfig";
 import React from "react";
 import { STATUS } from "../util/constants";
 import FilterCard from "../components/issue/FilterCard";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function ResolveIssues() {
+  const auth = useAuth();
   const [issues, setIssues] = React.useState([]);
   const [state, setState] = React.useState({});
 
@@ -17,9 +19,11 @@ export default function ResolveIssues() {
   const getIssues = () => {
     axios
       .get(
-        `/issues/filter?status=${STATUS.ASSIGNED}&tagId=${
-          state?.tagId ?? ""
-        }&typeId=${state?.typeId ?? ""}&text=${state?.text ?? ""}`
+        `/issues/filter?status=${STATUS.ASSIGNED}&resolverId=${
+          auth?.user?.id ?? ""
+        }&tagId=${state?.tagId ?? ""}&typeId=${state?.typeId ?? ""}&text=${
+          state?.text ?? ""
+        }`
       )
       .then((res) => {
         setIssues(res.data);

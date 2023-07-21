@@ -19,7 +19,11 @@ export default function ListIssues() {
       .get(
         `/issues/filter?status=${state?.status ?? ""}&tagId=${
           state?.tagId ?? ""
-        }&typeId=${state?.typeId ?? ""}&text=${state?.text ?? ""}`
+        }&typeId=${state?.typeId ?? ""}&text=${state?.text ?? ""}&creatorId=${
+          state?.creatorId ?? ""
+        }&reviewerId=${state?.reviewerId ?? ""}&resolverId=${
+          state?.resolverId ?? ""
+        }`
       )
       .then((res) => {
         setIssues(res.data);
@@ -30,7 +34,7 @@ export default function ListIssues() {
       <Header title="Issue List" />
       <Box sx={{ mt: 4 }} />
 
-      <FilterCard state={state} setState={setState} hideStatus />
+      <FilterCard state={state} setState={setState} showUsers />
 
       {issues.map((itemData) => {
         return (
