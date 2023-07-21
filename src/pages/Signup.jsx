@@ -22,27 +22,25 @@ export default function SignUp() {
   const navigate = useNavigate();
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    if (auth) {
-      navigate("/");
-    }
-  }, [auth]);
+  // useEffect(() => {
+  //   if (auth) {
+  //     navigate("/");
+  //   }
+  // }, [auth]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     try {
-      await signup(
-        {
-          firstname: data.get("firstName"),
-          lastname: data.get("lastName"),
-          email: data.get("email"),
-          password: data.get("password"),
-        },
-        authUpdate
-      );
-      navigate("/");
+      const datax = await signup({
+        firstname: data.get("firstName"),
+        lastname: data.get("lastName"),
+        email: data.get("email"),
+        password: data.get("password"),
+      });
+      navigate("/signin");
     } catch (error) {
+      console.log(error, "error");
       setError(error);
     }
   };
