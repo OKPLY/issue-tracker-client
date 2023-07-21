@@ -18,6 +18,7 @@ import { MoreVertOutlined } from "@mui/icons-material";
 import { STATUS } from "../util/constants";
 import ReviewIssue from "./issue/ReviewIssue";
 import axiosInstance from "../config/axiosConfig";
+import { useNavigate } from "react-router";
 
 const onDragEnd = async (result, columns, setColumns, setIsDragable) => {
   if (!result.destination) return;
@@ -26,7 +27,8 @@ const onDragEnd = async (result, columns, setColumns, setIsDragable) => {
   const destinationColumn = columns[destination.droppableId];
   if (
     sourceColumn.name === STATUS.CREATED &&
-    destinationColumn.name !== STATUS.ASSIGNED
+    destinationColumn.name !== STATUS.ASSIGNED &&
+    destinationColumn.name !== STATUS.CLOSED
   ) {
     return;
   }
@@ -128,6 +130,7 @@ const issueStatus = {
 };
 
 function IssueStatusTracker() {
+  const navigate = useNavigate();
   const [columns, setColumns] = useState(issueStatus);
   const [isDragable, setIsDragable] = useState(false);
   const [open, setOpen] = useState(false);
@@ -258,12 +261,7 @@ function IssueStatusTracker() {
                 >
                   <Typography sx={{ m: 1 }}>{column.name}</Typography>
 
-                  <Droppable
-                    droppableId={columnId}
-                    key={columnId}
-                    // isDropDisabled={isDropDisabled}
-                    // type={columnId === "assigned" ? "done" : "active"}
-                  >
+                  <Droppable droppableId={columnId} key={columnId}>
                     {(provided, snapshot) => {
                       return (
                         <div
@@ -302,7 +300,6 @@ function IssueStatusTracker() {
                                         ""
                                       )}
                                       <Box
-                                        onClick={() => setOpen(true)}
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
@@ -321,39 +318,53 @@ function IssueStatusTracker() {
                                         }}
                                       >
                                         <Grid container spacing={1}>
-                                          <Grid item xs={2}>
-                                            <Avatar
-                                              sx={{
-                                                width: 24,
-                                                height: 24,
-                                              }}
-                                              alt="Maggie Sharp"
-                                              src="/broken-image.jpg"
-                                            />
+                                          <Grid
+                                            container
+                                            onClick={() =>
+                                              navigate(`/issues/${item.id}`)
+                                            }
+                                            xs={10}
+                                          >
+                                            <Grid item xs={2}>
+                                              <Avatar
+                                                sx={{
+                                                  width: 24,
+                                                  height: 24,
+                                                }}
+                                                alt="Maggie Sharp"
+                                                src="/broken-image.jpg"
+                                              />
+                                            </Grid>
+                                            <Grid item xs={8}>
+                                              <Typography
+                                                sx={{
+                                                  fontSize: 14,
+                                                }}
+                                              >
+                                                {item.title}
+                                              </Typography>
+                                              <Typography
+                                                noWrap={true}
+                                                sx={{
+                                                  variant: "body2",
+                                                  color: "text.secondary",
+                                                  fontSize: 10,
+                                                }}
+                                              >
+                                                {item.description}
+                                              </Typography>
+                                            </Grid>
                                           </Grid>
-                                          <Grid item xs={8}>
-                                            <Typography
-                                              sx={{
-                                                fontSize: 14,
-                                              }}
-                                            >
-                                              {item.title}
-                                            </Typography>
-                                            <Typography
-                                              noWrap={true}
-                                              sx={{
-                                                variant: "body2",
-                                                color: "text.secondary",
-                                                fontSize: 10,
-                                              }}
-                                            >
-                                              {item.description}
-                                            </Typography>
-                                          </Grid>
                                           <Grid item xs={2}>
-                                            <IconButton>
-                                              <MoreVertOutlined />
-                                            </IconButton>
+                                            {column.name === STATUS.CREATED ? (
+                                              <IconButton
+                                                onClick={() => setOpen(true)}
+                                              >
+                                                <MoreVertOutlined />
+                                              </IconButton>
+                                            ) : (
+                                              ""
+                                            )}
                                           </Grid>
                                         </Grid>
                                       </Box>
@@ -383,14 +394,9 @@ export default IssueStatusTracker;
 export function AlertDialog({ open, handleClose, issue, getIssue }) {
   return (
     <div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        // aria-labelledby="alert-dialog-title"
-        // aria-describedby="alert-dialog-description"
-      >
+      <Dialog open={open} onClose={handleClose}>
         <DialogContent sx={{ width: 500 }}>
-          <ReviewIssue issue={issue} getIssue={getIssue} />
+          <ReviewIssue issue={issue} getIssue={getIssue} hideClose />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>
